@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New food businesses in London, updated daily</title>
+<meta name="description" content="Food businesses newly registered with London councils, by borough and type, updated every day. A free lead list for electricians, gas engineers, pest control, signwriters and cleaners.">
+<link rel="canonical" href="https://cloudcruncher.github.io/trade-lead-check/new-businesses.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:#e9edf2; --sheet:#fff; --ink:#14224f; --ink-soft:#4a5679; --rule:#c3d0ea; --margin:#e0525e;
+  --field:#f3f6fc; --focus:#1d4ed8; --new:#1b7a4b;
+  --body:'Barlow','Avenir Next','Segoe UI',system-ui,sans-serif; --stamp:'Barlow Condensed','Arial Narrow',sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#0b1124; --sheet:#121a36; --ink:#e8edff; --ink-soft:#a3b0d6; --rule:#25335f; --margin:#b8434d;
+    --field:#1a2447; --focus:#8fb0ff; --new:#4fd18b; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--paper); color:var(--ink); font:400 17px/1.5 var(--body); padding:20px 16px 56px; }
+.sheet { position:relative; max-width:860px; margin:0 auto; background:var(--sheet); border:1px solid var(--rule); border-radius:3px; padding:28px 20px 28px 44px; }
+.sheet::before { content:''; position:absolute; top:0; bottom:0; left:30px; width:2px; background:var(--margin); opacity:.8; }
+h1 { margin:0 0 8px; font:800 38px/1.02 var(--stamp); max-width:18ch; }
+.lede { margin:0 0 20px; color:var(--ink-soft); max-width:56ch; }
+.filters { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); margin-bottom:12px; }
+label, legend { font-weight:600; font-size:15px; }
+select, input[type=search] { width:100%; min-height:46px; padding:6px 10px; font:500 17px var(--body); color:var(--ink); background:var(--field); border:1px solid var(--rule); border-radius:3px; }
+fieldset { border:0; padding:0; margin:0 0 12px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.chips label { display:inline-flex; align-items:center; gap:6px; font-weight:500; min-height:40px; padding:0 12px; border:1px solid var(--rule); border-radius:3px; background:var(--field); cursor:pointer; }
+.chips input { width:18px; height:18px; }
+:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+.bar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:14px 0; }
+.count { font:800 26px/1 var(--stamp); }
+button, .btn { font:600 16px var(--body); min-height:44px; padding:0 16px; border-radius:3px; cursor:pointer; border:2px solid var(--ink); background:var(--ink); color:var(--sheet); text-decoration:none; display:inline-flex; align-items:center; }
+button.ghost, .btn.ghost { background:transparent; color:var(--ink); }
+table { width:100%; border-collapse:collapse; }
+th { text-align:left; font-weight:600; color:var(--ink-soft); font-size:14px; border-bottom:2px solid var(--ink); padding:6px 8px 6px 0; }
+td { padding:9px 8px 9px 0; border-bottom:1px solid var(--rule); vertical-align:top; }
+td.name { font-weight:600; }
+td a { color:inherit; }
+.todo { color:var(--ink-soft); font-size:14px; }
+.fresh { color:var(--new); font-weight:600; }
+.empty { padding:18px 0; color:var(--ink-soft); }
+.note { font-size:14px; color:var(--ink-soft); max-width:70ch; margin-top:18px; }
+.cta { margin-top:22px; padding:16px; border:2px solid var(--ink); border-radius:3px; background:var(--field); }
+.cta h2 { font:800 24px/1.1 var(--stamp); margin:0 0 6px; }
+.cta p { margin:0 0 12px; max-width:60ch; }
+@media (max-width:640px) {
+  .sheet { padding:22px 14px 22px 38px; } .sheet::before { left:24px; }
+  thead { display:none; } table, tbody, tr, td { display:block; }
+  tr { padding:10px 0; border-bottom:1px solid var(--rule); } td { border:0; padding:1px 0; }
+}
+@media print { body { background:#fff; padding:0 } .sheet { border:0; padding:0 } .sheet::before, .filters, fieldset, .bar button, .cta, .bar .btn { display:none } }
+</style>
+</head>
+<body>
+<main class="sheet">
+  <h1>New food businesses in London</h1>
+  <p class="lede">Premises newly registered with their council, by borough. New kitchens and shops tend to need electrical, gas, extraction, pest control, signage or cleaning work in their first months. Free, refreshed daily from public data.</p>
+
+  <div class="filters">
+    <div><label for="borough">Borough</label><select id="borough"><option value="">All of London</option></select></div>
+    <div><label for="days">Registered in the last</label>
+      <select id="days"><option value="3">3 days</option><option value="7" selected>7 days</option><option value="14">14 days</option><option value="28">28 days</option></select></div>
+    <div><label for="pc">Postcode starts with</label><input id="pc" type="search" placeholder="e.g. E1 or SW9" autocomplete="off"></div>
+  </div>
+  <fieldset><legend>Type of business</legend><div class="chips" id="types"></div></fieldset>
+
+  <div class="bar">
+    <span class="count" id="count" aria-live="polite"></span>
+    <button type="button" id="csv" class="ghost">Download CSV</button>
+    <button type="button" id="copy" class="ghost">Copy for WhatsApp</button>
+    <button type="button" id="print" class="ghost">Print</button>
+  </div>
+
+  <table>
+    <thead><tr><th>Registered</th><th>Business</th><th>Type</th><th>Area</th><th>Likely work</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="empty" id="empty" hidden>Nothing matches. Try more days, a wider postcode, or all of London.</p>
+
+  <div class="cta" id="cta">
+    <h2>Want this for your borough every week?</h2>
+    <p>Tell me your trade and borough and I'll send the new premises by WhatsApp each Monday. Free while I test it.</p>
+    <a class="btn" id="wa" href="#">Message me on WhatsApp</a>
+  </div>
+
+  <p class="note" id="note">Loading the latest data.</p>
+  <p class="note">The register lists business names and postcodes only, no phone numbers or emails. Visit in person or write to the premises. Don't cold-text or cold-email sole traders: that breaks PECR. An entry can also be a change of owner, and not every new business needs outside help. Not affiliated with the Food Standards Agency or any council.</p>
+</main>
+<script>
+(function () {
+  var WHATSAPP = '447466201865'
+  var TYPES = {
+    'Restaurants and cafes': ['Restaurant/Cafe/Canteen'],
+    'Takeaways': ['Takeaway/sandwich shop'],
+    'Pubs and bars': ['Pub/bar/nightclub'],
+    'Shops and markets': ['Retailers - other', 'Retailers - supermarkets/hypermarkets', 'Distributors/Transporters'],
+    'Home and mobile caterers': ['Other catering premises', 'Mobile caterer'],
+    'Other': null
+  }
+  var WORK = {
+    'Restaurant/Cafe/Canteen': 'Extraction, gas safety, electrics, pest control',
+    'Takeaway/sandwich shop': 'Extraction, grease traps, gas safety, pest control',
+    'Pub/bar/nightclub': 'Cellar and gas, electrics, signage, cleaning',
+    'Retailers - other': 'Shopfitting, electrics, security, signage',
+    'Retailers - supermarkets/hypermarkets': 'Refrigeration, electrics, security',
+    'Manufacturers/packers': 'Electrics, refrigeration, pest control',
+    'Other catering premises': 'Usually small: electrics, pest control, cleaning',
+    'Mobile caterer': 'Gas safety, electrics, van fit-out'
+  }
+  var $ = function (id) { return document.getElementById(id) }
+  var data, shown = []
+  var groupOf = {}
+  Object.keys(TYPES).forEach(function (g) { (TYPES[g] || []).forEach(function (t) { groupOf[t] = g }) })
+  function group(t) { return groupOf[t] || 'Other' }
+
+  $('wa').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Hi, I saw the new businesses list. My trade is ___ and my borough is ___.')
+
+  fetch('data/new-premises.json', { cache: 'no-cache' }).then(function (r) { return r.json() }).then(function (d) {
+    data = d
+    var boroughs = Array.from(new Set(d.premises.map(function (p) { return p.borough }))).sort()
+    boroughs.forEach(function (b) { var o = document.createElement('option'); o.value = b; o.textContent = b; $('borough').appendChild(o) })
+    Object.keys(TYPES).forEach(function (g) {
+      var l = document.createElement('label'); var c = document.createElement('input')
+      c.type = 'checkbox'; c.value = g; c.checked = true; c.addEventListener('change', render)
+      l.appendChild(c); l.appendChild(document.createTextNode(g)); $('types').appendChild(l)
+    })
+    $('note').textContent = 'Data to ' + d.as_of + ' from ' + d.source + ', ' + d.licence + '. Updated every day.'
+    ;['borough', 'days'].forEach(function (id) { $(id).addEventListener('change', render) })
+    $('pc').addEventListener('input', render)
+    render()
+  }).catch(function () { $('note').textContent = 'Could not load the data. Refresh the page, or message me.' })
+
+  function render() {
+    var cutoff = new Date(data.as_of + 'T00:00:00Z'); cutoff.setUTCDate(cutoff.getUTCDate() - (+$('days').value - 1))
+    var cut = cutoff.toISOString().slice(0, 10), b = $('borough').value, pc = $('pc').value.trim().toUpperCase().replace(/\s+/g, '')
+    var on = {}; $('types').querySelectorAll('input').forEach(function (c) { on[c.value] = c.checked })
+    shown = data.premises.filter(function (p) {
+      return p.date >= cut && (!b || p.borough === b) && on[group(p.type)] && (!pc || p.postcode.replace(/\s+/g, '').toUpperCase().indexOf(pc) === 0)
+    })
+    $('count').textContent = shown.length + (shown.length === 1 ? ' new business' : ' new businesses')
+    var tb = $('rows'); tb.textContent = ''
+    shown.forEach(function (p) {
+      var tr = document.createElement('tr')
+      function cell(t, cls) { var td = document.createElement('td'); if (cls) td.className = cls; td.textContent = t; tr.appendChild(td); return td }
+      var isNew = p.date === data.as_of
+      var d = cell(p.date.split('-').reverse().join('/') + (isNew ? ' (today)' : ''), isNew ? 'fresh' : '')
+      var n = document.createElement('td'); n.className = 'name'
+      var a = document.createElement('a'); a.href = 'https://ratings.food.gov.uk/business/' + p.id; a.target = '_blank'; a.rel = 'noopener'; a.textContent = p.name
+      n.appendChild(a); tr.appendChild(n)
+      cell(group(p.type))
+      cell((p.postcode ? p.postcode + ', ' : '') + p.borough)
+      cell(WORK[p.type] || 'Depends on the business', 'todo')
+      tb.appendChild(tr)
+    })
+    $('empty').hidden = shown.length > 0
+  }
+
+  function csvCell(v) { return '"' + String(v).replace(/"/g, '""') + '"' }
+  $('csv').addEventListener('click', function () {
+    var lines = ['Registered,Business,Type,Postcode,Borough,Register link']
+    shown.forEach(function (p) { lines.push([p.date, p.name, p.type, p.postcode, p.borough, 'https://ratings.food.gov.uk/business/' + p.id].map(csvCell).join(',')) })
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }))
+    a.download = 'new-food-businesses-' + data.as_of + '.csv'; a.click(); URL.revokeObjectURL(a.href)
+  })
+  $('copy').addEventListener('click', function () {
+    var t = 'New food businesses' + ($('borough').value ? ' in ' + $('borough').value : ' in London') + ' (to ' + data.as_of + '):\n' +
+      shown.slice(0, 40).map(function (p) { return '- ' + p.name + ', ' + p.postcode + ' (' + group(p.type).toLowerCase() + ')' }).join('\n')
+    navigator.clipboard.writeText(t).then(function () { $('copy').textContent = 'Copied'; setTimeout(function () { $('copy').textContent = 'Copy for WhatsApp' }, 1800) })
+  })
+  $('print').addEventListener('click', function () { window.print() })
+})()
+</script>
+</body>
+</html>

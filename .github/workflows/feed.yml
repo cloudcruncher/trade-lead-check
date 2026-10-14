@@ -1,0 +1,18 @@
+name: Refresh new-premises feed
+on:
+  schedule: [{ cron: '47 12 * * *' }]  # after london-pulse's 12:17 UTC run
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/build_feed.py
+        env: { GITHUB_TOKEN: '${{ github.token }}' }
+      - name: Commit if changed
+        run: |
+          git config user.name "feed-bot"; git config user.email "feed-bot@users.noreply.github.com"
+          git add data/new-premises.json
+          git diff --cached --quiet || (git commit -m "data: refresh new-premises feed" && git push)
