@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is Checkatrade worth it? Free lead cost check for UK tradespeople</title>
+<meta name="description" content="Seven numbers from last month tell you whether Checkatrade, Bark, MyBuilder or Rated People is paying for itself. Free. Nothing is saved or sent.">
+<link rel="canonical" href="https://cloudcruncher.github.io/trade-lead-check/">
+<meta property="og:title" content="Is Checkatrade, Bark or MyBuilder worth it? Free check for tradespeople">
+<meta property="og:description" content="Type in last month's spend and jobs won. Get cost per job and a keep, renegotiate or cancel verdict. Free, nothing saved.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://cloudcruncher.github.io/trade-lead-check/"><meta property="og:locale" content="en_GB">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Trade Lead Check","url":"https://cloudcruncher.github.io/trade-lead-check/","applicationCategory":"BusinessApplication","operatingSystem":"Any","inLanguage":"en-GB","offers":{"@type":"Offer","price":"0","priceCurrency":"GBP"},"description":"Free calculator that shows what each job from Checkatrade, Bark, MyBuilder or Rated People really costs a tradesperson."}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #e9edf2;
+  --sheet: #ffffff;
+  --ink: #14224f;
+  --ink-soft: #4a5679;
+  --rule: #c3d0ea;
+  --margin: #e0525e;
+  --field: #f3f6fc;
+  --stamp-keep: #1b7a4b;
+  --stamp-warn: #b45f06;
+  --stamp-stop: #c0262d;
+  --focus: #1d4ed8;
+  --body: 'Barlow', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  --stamp: 'Barlow Condensed', 'Arial Narrow', 'Avenir Next Condensed', sans-serif;
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0b1124; --sheet: #121a36; --ink: #e8edff; --ink-soft: #a3b0d6;
+    --rule: #25335f; --margin: #b8434d; --field: #1a2447;
+    --stamp-keep: #4fd18b; --stamp-warn: #f0a24a; --stamp-stop: #ff6b72; --focus: #8fb0ff;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 17px/1.5 var(--body);
+  padding: 20px 16px 56px;
+}
+.sheet {
+  position: relative; max-width: 640px; margin: 0 auto;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 28px 20px 28px 44px;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--rule) 31px 32px);
+  background-position: 0 14px;
+}
+.sheet::before { /* red margin line of the invoice pad */
+  content: ''; position: absolute; top: 0; bottom: 0; left: 30px; width: 2px; background: var(--margin); opacity: .8;
+}
+h1 {
+  margin: 0 0 8px; font: 800 38px/1.02 var(--stamp); letter-spacing: .01em; max-width: 14ch;
+}
+.lede { margin: 0 0 22px; color: var(--ink-soft); max-width: 46ch; background: var(--sheet); display: inline; padding: 1px 0; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.lede-wrap { margin: 0 0 22px; }
+form { display: grid; gap: 14px; }
+.row { display: grid; gap: 4px; background: var(--sheet); padding: 6px 0 2px; }
+label { font-weight: 600; font-size: 16px; }
+.hint { font-size: 14px; color: var(--ink-soft); margin: 0; }
+.control { display: flex; align-items: stretch; }
+.control .unit {
+  display: flex; align-items: center; padding: 0 12px; background: var(--rule); color: var(--ink);
+  font-weight: 600; border-radius: 3px 0 0 3px; border: 1px solid var(--rule);
+}
+.control .unit.end { border-radius: 0 3px 3px 0; }
+input, select {
+  width: 100%; min-height: 48px; padding: 8px 12px; font: 500 18px var(--body); color: var(--ink);
+  background: var(--field); border: 1px solid var(--rule); border-radius: 3px;
+}
+.control input { border-radius: 0 3px 3px 0; }
+.control .unit + input { border-left: 0; }
+.control input + .unit { border-left: 0; }
+.control input:has(+ .unit.end) { border-radius: 3px 0 0 3px; border-right: 0; }
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+input[aria-invalid="true"] { border-color: var(--stamp-stop); }
+.err { color: var(--stamp-stop); font-size: 14px; font-weight: 600; margin: 0; min-height: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: var(--sheet); padding: 8px 0; }
+button, .btn {
+  font: 600 18px var(--body); min-height: 48px; padding: 0 22px; border-radius: 3px; cursor: pointer;
+  border: 2px solid var(--ink); background: var(--ink); color: var(--sheet); text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+button.ghost, .btn.ghost { background: transparent; color: var(--ink); }
+#result { margin-top: 28px; background: var(--sheet); padding: 18px 0 4px; border-top: 2px solid var(--ink); }
+#result[hidden] { display: none; }
+#result:focus { outline: none; }
+.stampwrap { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.stamp {
+  font: 800 34px/1 var(--stamp); letter-spacing: .04em; text-transform: uppercase;
+  padding: 10px 16px 8px; border: 4px solid currentColor; border-radius: 6px; transform: rotate(-4deg);
+  outline: 2px solid currentColor; outline-offset: -9px; opacity: .92;
+}
+.stamp.keep { color: var(--stamp-keep); }
+.stamp.warn { color: var(--stamp-warn); }
+.stamp.stop { color: var(--stamp-stop); }
+.stamp.neutral { color: var(--ink-soft); }
+@media (prefers-reduced-motion: no-preference) {
+  .stamp.thump { animation: thump .28s ease-out; }
+  @keyframes thump { from { transform: rotate(-4deg) scale(1.5); opacity: 0; } to { transform: rotate(-4deg) scale(1); opacity: .92; } }
+}
+.reason { font-size: 19px; line-height: 1.4; margin: 16px 0 14px; max-width: 48ch; }
+dl.lines { margin: 0 0 14px; display: grid; grid-template-columns: 1fr auto; column-gap: 12px; }
+dl.lines dt, dl.lines dd { margin: 0; padding: 7px 0; border-bottom: 1px dotted var(--ink-soft); }
+dl.lines dt { color: var(--ink-soft); }
+dl.lines dd { font: 800 24px/1.1 var(--stamp); text-align: right; letter-spacing: .01em; }
+dl.lines dd.neg { color: var(--stamp-stop); }
+.note { font-size: 14px; color: var(--ink-soft); max-width: 52ch; }
+.cta { margin-top: 18px; padding: 16px; border: 2px solid var(--ink); border-radius: 3px; background: var(--field); }
+.cta h2 { font: 800 24px/1.1 var(--stamp); margin: 0 0 6px; }
+.cta p { margin: 0 0 12px; }
+footer { margin-top: 24px; font-size: 14px; color: var(--ink-soft); background: var(--sheet); padding: 6px 0; }
+.printhead { display: none; }
+.faq { margin-top: 28px; background: var(--sheet); padding: 6px 0; }
+.faq h2 { font: 800 24px/1.1 var(--stamp); margin: 0 0 8px; }
+.faq h3 { font: 600 17px var(--body); margin: 14px 0 2px; }
+.faq p { margin: 0 0 8px; max-width: 56ch; }
+
+@media print {
+  @page { size: A4; margin: 16mm; }
+  body { background: #fff; padding: 0; color: #14224f; font-size: 13pt; }
+  .sheet { border: 0; padding: 0; background: none; max-width: none; }
+  .sheet::before, form, .lede-wrap, h1, .actions, .cta, .faq, footer, #errsummary { display: none !important; }
+  #result { border-top: 0; padding-top: 0; margin-top: 0; }
+  .printhead { display: block; margin-bottom: 14px; }
+  .printhead h2 { font: 800 28pt/1 var(--stamp); margin: 0 0 4px; }
+  .printhead p { margin: 0; color: #4a5679; }
+  .stamp { animation: none !important; }
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <h1>Is your lead platform paying for itself?</h1>
+  <div class="lede-wrap"><p class="lede">Seven numbers from last month. You get a plain verdict. Nothing is saved or sent anywhere.</p></div>
+
+  <form id="f" novalidate>
+    <div class="row">
+      <label for="platform">Which platform?</label>
+      <select id="platform" name="platform">
+        <option>Checkatrade</option>
+        <option>Bark</option>
+        <option>MyBuilder</option>
+        <option>Rated People</option>
+        <option>Google Local Services ads</option>
+        <option>Another platform</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="spend">What you paid last month</label>
+      <p class="hint" id="h-spend">Membership plus any lead fees or credits. Use 3 months if jobs are slow.</p>
+      <div class="control"><span class="unit" aria-hidden="true">£</span><input id="spend" name="spend" inputmode="decimal" autocomplete="off" aria-describedby="h-spend e-spend"></div>
+      <p class="err" id="e-spend"></p>
+    </div>
+    <div class="row">
+      <label for="leads">Enquiries they sent you</label>
+      <input id="leads" name="leads" inputmode="numeric" autocomplete="off" aria-describedby="e-leads">
+      <p class="err" id="e-leads"></p>
+    </div>
+    <div class="row">
+      <label for="talked">Enquiries you actually spoke to</label>
+      <p class="hint" id="h-talked">Answered the phone, or replied while they still cared.</p>
+      <input id="talked" name="talked" inputmode="numeric" autocomplete="off" aria-describedby="h-talked e-talked">
+      <p class="err" id="e-talked"></p>
+    </div>
+    <div class="row">
+      <label for="quotes">Quotes you sent</label>
+      <input id="quotes" name="quotes" inputmode="numeric" autocomplete="off" aria-describedby="e-quotes">
+      <p class="err" id="e-quotes"></p>
+    </div>
+    <div class="row">
+      <label for="won">Jobs you won from them</label>
+      <input id="won" name="won" inputmode="numeric" autocomplete="off" aria-describedby="e-won">
+      <p class="err" id="e-won"></p>
+    </div>
+    <div class="row">
+      <label for="avgJob">Average job value</label>
+      <div class="control"><span class="unit" aria-hidden="true">£</span><input id="avgJob" name="avgJob" inputmode="decimal" autocomplete="off" aria-describedby="e-avgJob"></div>
+      <p class="err" id="e-avgJob"></p>
+    </div>
+    <div class="row">
+      <label for="margin">Profit you keep from a job</label>
+      <p class="hint" id="h-margin">After materials and wages, before the platform fee. Not sure? Leave 30.</p>
+      <div class="control"><input id="margin" name="margin" inputmode="numeric" value="30" autocomplete="off" aria-describedby="h-margin e-margin"><span class="unit end" aria-hidden="true">%</span></div>
+      <p class="err" id="e-margin"></p>
+    </div>
+    <div class="row">
+      <label for="name">First name, for the printed copy</label>
+      <p class="hint" id="h-name">Optional. It never leaves this page.</p>
+      <input id="name" name="name" autocomplete="given-name" maxlength="30" aria-describedby="h-name">
+    </div>
+    <div class="actions">
+      <button type="submit">Check it</button>
+      <button type="button" class="ghost" id="example">Try example numbers</button>
+    </div>
+  </form>
+
+  <section id="result" hidden aria-live="polite" tabindex="-1">
+    <div class="printhead"><h2>Trade Lead Check</h2><p id="ph"></p></div>
+    <div class="stampwrap"><div class="stamp" id="stamp"></div></div>
+    <p class="reason" id="reason"></p>
+    <dl class="lines" id="lines"></dl>
+    <p class="note" id="note"></p>
+    <div class="actions">
+      <button type="button" id="print">Print or save as PDF</button>
+      <button type="button" class="ghost" id="again">Check another</button>
+    </div>
+    <div class="cta" id="cta" hidden>
+      <h2>Want a second pair of eyes?</h2>
+      <p>Send me your last three months of leads and invoices. I'll tell you what each job really cost you.</p>
+      <div class="actions" id="ctabtns"></div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h2>How to tell if Checkatrade, Bark, MyBuilder or Rated People is worth it</h2>
+    <p>Divide what you paid by the jobs you won. If you paid £240 and won 4 jobs, each job cost you £60. Then compare that with the profit a job earns you before the fee. If the fee is bigger, the platform is losing you money.</p>
+    <h3>What counts as a good cost per job?</h3>
+    <p>It depends on your trade and margin. Cost per job should sit well below the profit that job earns you. Also check how many enquiries you actually answered: replies that come too late rarely turn into work.</p>
+    <h3>Can I cancel a platform contract early?</h3>
+    <p>Check your agreement before you act. Many memberships run for 12 months, and some tradespeople say the minimum term wasn't clear when they signed up. Read the cancellation terms and notice period first, and ask the platform for a lower price or a shorter term before you renew.</p>
+  </section>
+  <footer>
+    <p id="owner">A free tool made in London.</p>
+    <p>These figures come from the numbers you typed in. They are an estimate, not financial advice.</p>
+  </footer>
+</main>
+
+<script src="calc.js"></script>
+<script>
+(function () {
+  // Set these before publishing. Leave both empty to hide the contact box.
+  var CONTACT = { name: 'Robin', whatsapp: '+447466201865', email: '' }
+
+  var $ = function (id) { return document.getElementById(id) }
+  var fields = ['spend', 'leads', 'talked', 'quotes', 'won', 'avgJob', 'margin']
+  var form = $('f')
+
+  if (CONTACT.name) $('owner').textContent = 'A free tool by ' + CONTACT.name + ', London.'
+  if (CONTACT.whatsapp || CONTACT.email) {
+    $('cta').hidden = false
+    var b = $('ctabtns')
+    if (CONTACT.whatsapp) {
+      var a = document.createElement('a')
+      a.className = 'btn'; a.textContent = 'Message me on WhatsApp'
+      a.href = 'https://wa.me/' + CONTACT.whatsapp.replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent('Hi, I tried Trade Lead Check and want a second opinion.')
+      b.appendChild(a)
+    }
+    if (CONTACT.email) {
+      var m = document.createElement('a')
+      m.className = 'btn ghost'; m.textContent = 'Email me'
+      m.href = 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent('Trade Lead Check')
+      b.appendChild(m)
+    }
+  }
+
+  function read() {
+    var o = {}
+    fields.forEach(function (k) { o[k] = form.elements[k].value.replace(/[£,\s%]/g, '') })
+    return o
+  }
+  function clearErrors() {
+    fields.forEach(function (k) { $('e-' + k).textContent = ''; form.elements[k].removeAttribute('aria-invalid') })
+  }
+  function line(dl, label, value, neg) {
+    var dt = document.createElement('dt'); dt.textContent = label
+    var dd = document.createElement('dd'); dd.textContent = value; if (neg) dd.className = 'neg'
+    dl.appendChild(dt); dl.appendChild(dd)
+  }
+
+  function render(r) {
+    var g = TLC.gbp
+    var cls = { keep: 'keep', cancel: 'stop', speed: 'warn', renegotiate: 'warn', early: 'neutral', none: 'neutral' }[r.kind]
+    var st = $('stamp')
+    st.className = 'stamp ' + cls + ' thump'
+    st.textContent = r.headline
+    $('reason').textContent = r.reason
+    var dl = $('lines'); dl.textContent = ''
+    if (r.kind !== 'none') {
+      line(dl, 'Cost per enquiry', r.costPerLead === null ? 'n/a' : g(r.costPerLead))
+      line(dl, 'Cost per job won', r.costPerJob === null ? 'No jobs' : g(r.costPerJob))
+      line(dl, 'Profit per job before the fee', g(r.profitPerJob))
+      line(dl, 'You keep after the fee', g(r.net), r.net < 0)
+      if (r.breakEvenJobs !== null) line(dl, 'Jobs a month to break even', String(r.breakEvenJobs))
+      if (r.contactRate !== null) line(dl, 'Enquiries you reached', Math.round(r.contactRate * 100) + '%')
+      if (r.missed > 0 && r.lostProfit >= 1) line(dl, 'Profit in enquiries you missed', '~' + g(r.lostProfit))
+    }
+    $('note').textContent = 'Based on a ' + Math.round(r.margin * 100) + '% profit margin and your own numbers. One month is a small sample, so check again in three months.'
+    var name = form.elements.name.value.trim()
+    var today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+    $('ph').textContent = (name ? name + ' · ' : '') + form.elements.platform.value + ' · ' + today
+    var res = $('result'); res.hidden = false
+    res.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })
+    res.focus({ preventScroll: true })
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault()
+    clearErrors()
+    var r = TLC.calc(read())
+    if (!r.ok) {
+      var first = null
+      Object.keys(r.errors).forEach(function (k) {
+        $('e-' + k).textContent = r.errors[k]
+        form.elements[k].setAttribute('aria-invalid', 'true')
+        if (!first) first = form.elements[k]
+      })
+      $('result').hidden = true
+      if (first) first.focus()
+      return
+    }
+    render(r)
+  })
+
+  $('example').addEventListener('click', function () {
+    var ex = { spend: '240', leads: '20', talked: '18', quotes: '10', won: '4', avgJob: '450', margin: '30' }
+    fields.forEach(function (k) { form.elements[k].value = ex[k] })
+    form.elements.platform.value = 'Checkatrade'
+    form.requestSubmit()
+  })
+  $('print').addEventListener('click', function () { window.print() })
+  $('again').addEventListener('click', function () {
+    $('result').hidden = true
+    form.reset()
+    clearErrors()
+    window.scrollTo(0, 0)
+    form.elements.spend.focus()
+  })
+})()
+</script>
+</body>
+</html>

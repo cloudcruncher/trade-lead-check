@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cloudcruncher.github.io/trade-lead-check/sitemap.xml
